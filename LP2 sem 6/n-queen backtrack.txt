@@ -1,0 +1,77 @@
+import java.util.*;
+
+public class NQueens {
+    public static void main(String[] args) {
+        int n = 4; // Change this value to the desired size of the chessboard
+        solveNQueens(n);
+    }
+
+    public static void solveNQueens(int n) {
+        int[][] board = new int[n][n];
+        List<List<String>> solutions = new ArrayList<>();
+        backtrack(board, 0, solutions);
+        displaySolutions(solutions);
+    }
+
+    public static void backtrack(int[][] board, int row, List<List<String>> solutions) {
+        if (row == board.length) {
+            solutions.add(generateSolution(board));
+            return;
+        }
+
+        for (int col = 0; col < board.length; col++) {
+            if (isValid(board, row, col)) {
+                board[row][col] = 1;
+                backtrack(board, row + 1, solutions);
+                board[row][col] = 0;
+            }
+        }
+    }
+
+    public static boolean isValid(int[][] board, int row, int col) {
+        // Check if there is a queen in the same column
+        for (int i = 0; i < row; i++) {
+            if (board[i][col] == 1) {
+                return false;
+            }
+        }
+
+        // Check if there is a queen in the upper-left diagonal
+        for (int i = row, j = col; i >= 0 && j >= 0; i--, j--) {
+            if (board[i][j] == 1) {
+                return false;
+            }
+        }
+
+        // Check if there is a queen in the upper-right diagonal
+        for (int i = row, j = col; i >= 0 && j < board.length; i--, j++) {
+            if (board[i][j] == 1) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    public static List<String> generateSolution(int[][] board) {
+        List<String> solution = new ArrayList<>();
+        for (int[] row : board) {
+            StringBuilder sb = new StringBuilder();
+            for (int cell : row) {
+                sb.append(cell == 1 ? 'Q' : '.');
+            }
+            solution.add(sb.toString());
+        }
+        return solution;
+    }
+
+    public static void displaySolutions(List<List<String>> solutions) {
+        System.out.println("Distinct Solutions for N-Queens:");
+        for (List<String> solution : solutions) {
+            for (String row : solution) {
+                System.out.println(row);
+            }
+            System.out.println();
+        }
+    }
+}

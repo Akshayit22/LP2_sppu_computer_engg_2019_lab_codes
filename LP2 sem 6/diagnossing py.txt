@@ -1,0 +1,45 @@
+knowledge_base = {
+    "question": "What is your problem?",
+    "rules": [
+        {
+            "symptoms": ["fever", "cough"],
+            "diagnosis": "You might have a cold."
+        },
+        {
+            "symptoms": ["fever", "sore throat"],
+            "diagnosis": "You might have strep throat."
+        },
+        {
+            "symptoms": ["rash"],
+            "diagnosis": "You might have an allergic reaction."
+        },
+        {
+            "symptoms": ["headache"],
+            "diagnosis": "You might have a migraine."
+        },
+        {
+            "symptoms": ["fatigue", "weakness"],
+            "diagnosis": "You might have anemia."
+        },
+        {
+            "symptoms": ["none"],
+            "diagnosis": "I'm sorry, I cannot diagnose your problem."
+        }
+    ]
+}
+
+def diagnose(symptoms):
+    for rule in knowledge_base["rules"]:
+        if set(rule["symptoms"]) == set(symptoms):
+            return rule["diagnosis"]
+    return "I'm sorry, I cannot diagnose your problem."
+
+def main():
+    print(knowledge_base["question"])
+    user_input = input("> Enter your symptoms (comma-separated): ")
+    symptoms = user_input.split(",")
+    result = diagnose(symptoms)
+    print("Diagnosis:", result)
+
+if __name__ == "__main__":
+    main()
